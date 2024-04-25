@@ -21,6 +21,10 @@ function NavbarComponent() {
     router.push("/");
   };
 
+  const toDashboard = () => {
+    router.push("/dashboard");
+  }
+
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body">
       <Container>
@@ -37,6 +41,9 @@ function NavbarComponent() {
             </Nav.Link>
             <Nav.Link className="Navbar-element" href="#home">
               <i className="fas fa-info-circle"></i> About
+            </Nav.Link>
+            <Nav.Link className="Navbar-element" onClick={toDashboard}>
+              <i className="fa fa-tachometer"></i> Dashboard
             </Nav.Link>
           </Nav>
           <Nav>
