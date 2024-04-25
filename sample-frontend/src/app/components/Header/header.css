@@ -1,0 +1,32 @@
+.home-page-heading{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.header-page-button{
+    margin-top: 30px;
+    margin-left: 190px;
+}
+
+.header-page-image{
+    margin-left: 55px;
+}
+
+@media only screen and (max-width: 768px){
+    .header-page-container{
+        margin-left: 0px;
+    }
+
+    .header-page-button{
+        margin-left: 65px;
+    }
+
+    
+    .header-page-image{
+        margin-left: 0px;
+    }
+}

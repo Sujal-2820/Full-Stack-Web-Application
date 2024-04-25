@@ -1,0 +1,19 @@
+.Navbar-element{
+    font-weight: bold;
+    color: rgb(0, 65, 122);
+}
+
+.navbar-brand-1{
+    color: rgb(34, 139, 232);
+    font-weight: 300;
+}
+
+.navbar-brand-2{
+    color: rgb(29, 84, 132);
+    font-weight: 500;
+}
+
+.navbar-brand-3{
+    color: rgb(0, 47, 89);
+    font-weight: 700;
+}
