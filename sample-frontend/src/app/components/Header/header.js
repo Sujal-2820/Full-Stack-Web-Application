@@ -21,7 +21,7 @@ function HeaderComponent() {
     <Container className='header-page-container'>
       <Row>
         <Col>
-          <div className='home-page-heading'>This is a project to showcase the working of a Full stack Web Application.</div>
+          <div className='home-page-heading'>This is a project to showcase the working of a Full stack Web Application</div>
           <Button className='header-page-button' variant="outline-dark" size="lg" onClick={handlegotToSignup}>Test this application</Button>
         </Col>
         <Col>

@@ -2,9 +2,15 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "next/image";
+import Button from 'react-bootstrap/Button';
 import "./About.css";
 
 function AboutComponent() {
+
+  const handlegotToResume = () => {
+    window.location.href = 'https://drive.google.com/file/d/1rVA7ryJDl1v8osWLk0ZmAOSNj0NXPjWj/view?usp=drive_link';
+  }
+
   return (
     <Container className="about-container">
       <Row>
@@ -27,6 +33,7 @@ function AboutComponent() {
             continuous learning and growth, excited about contributing to
             innovative projects, and collaborating with talented teams.
           </div>
+          <Button className="about-page-button1" variant="dark" onClick={handlegotToResume}>Check my Resume</Button>
         </Col>
       </Row>
     </Container>

@@ -31,6 +31,12 @@
     margin-right: 100px;
   }
 
+  .about-page-button1{
+    margin-top: 20px;
+    margin-left: 210px;
+  }
+
+
   @media only screen and (max-width: 768px){
     .about-container{
         margin-left: 0px;
@@ -41,7 +47,13 @@
 
       .about-page-image{
         margin-bottom: 7px;
-        margin-left: 44px;
+        margin-left: 47px;
       }
+
+      .about-page-button1{
+        margin-top: 35px;
+        margin-left: 117px;
+      }
+
   }
   
