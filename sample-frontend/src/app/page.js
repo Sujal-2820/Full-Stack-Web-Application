@@ -1,4 +1,4 @@
-// event/src/app/page.js
+// /src/app/page.js
 'use client'
 
 import React from 'react';
