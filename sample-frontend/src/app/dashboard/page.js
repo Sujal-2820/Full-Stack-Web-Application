@@ -1,3 +1,5 @@
+// src/app/dashboard/page.js
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -9,7 +11,6 @@ import DashboardNavbarComponent from "../components/Navbar2/navbar2";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./dashboard.css";
-import Image from "next/image";
 import Form from 'react-bootstrap/Form';
 
 
@@ -19,6 +20,8 @@ function DashboardPage() {
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
+
+
   return (
     <>
       <DashboardNavbarComponent />
@@ -27,6 +30,12 @@ function DashboardPage() {
         <Row>
           <Col sm={4} className="custom-dashboard-col1">
             <div className="dashboard-content-col1">
+            {userData && ( // Conditionally render user data
+                <div className="user-info">
+                  <p>Name: {userData.username}</p>
+                  <p>Email: {userData.email}</p>
+                </div>
+              )}
               <h5 className="dashboard-content-heading">Topic Selection</h5>
               <div className="topic-selection-parent">
               <div className="topic-selection">

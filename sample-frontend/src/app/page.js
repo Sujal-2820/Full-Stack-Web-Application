@@ -1,4 +1,4 @@
-// /src/app/page.js
+// /src/app/page.js (Home page, localhost:3000/)
 'use client'
 
 import React from 'react';
