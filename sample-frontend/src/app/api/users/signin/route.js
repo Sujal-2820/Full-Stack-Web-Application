@@ -36,7 +36,7 @@ export async function POST(request) {
     const token = jwt.sign(
       { userId: existingUser._id },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" } // Token expires in 1 hour
+      { expiresIn: "24h" } 
     );
 
     // Set cookie with token
