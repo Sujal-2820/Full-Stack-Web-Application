@@ -10,17 +10,70 @@ import Col from "react-bootstrap/Col";
 import DashboardNavbarComponent from "../components/Navbar2/navbar2";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { useRouter } from "next/navigation";
 import "./dashboard.css";
-import Form from 'react-bootstrap/Form';
-
+import Form from "react-bootstrap/Form";
+import axios from "axios";
 
 function DashboardPage() {
+  const router = useRouter();
+  const [userData, setUserData] = useState([]);
+  const [username, setUsername] = useState("");
   const [sortBy, setSortBy] = useState("");
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/userData");
+      const { username, userData } = response.data;
+      console.log(response.data);
+      setUsername(username); // Set the username state
+      setUserData(userData); // Set the user data state
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      prompt("Are you sure to want to delete the Data? Type Yes");
+      await axios.delete(`/api/userData/${id}`);
+
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting data:", error.response.data.message);
+      // Handle error
+    }
+  };
+
+  const truncateTitle = (title) => {
+    const maxChars = 20;
+    if (title.length > maxChars) {
+      return title.slice(0, maxChars) + "...";
+    }
+    return title;
+  };
+
+  const truncateDescription = (description) => {
+    const maxChars = 50;
+    if (description.length > maxChars) {
+      return description.slice(0, maxChars) + "...";
+    }
+    return description;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
 
   return (
     <>
@@ -30,15 +83,14 @@ function DashboardPage() {
         <Row>
           <Col sm={4} className="custom-dashboard-col1">
             <div className="dashboard-content-col1">
-            {userData && ( // Conditionally render user data
+              {username && (
                 <div className="user-info">
-                  <p>Name: {userData.username}</p>
-                  <p>Email: {userData.email}</p>
+                  <p>Welcome {username}</p>
                 </div>
               )}
               <h5 className="dashboard-content-heading">Topic Selection</h5>
               <div className="topic-selection-parent">
-              <div className="topic-selection">
+                <div className="topic-selection">
                   <Form.Check
                     inline
                     type="radio"
@@ -131,93 +183,59 @@ function DashboardPage() {
                 <option value="">Select Sorting Option</option>
                 <option value="newest">Newest to Oldest</option>
                 <option value="oldest">Oldest to Newest</option>
-                {/* Add more sorting options */}
               </select>
             </div>
           </Col>
+
+          {/* Cards */}
           <Col sm={8} className="custom-dashboard-col2">
             <Row className="dashboard-col2-unique-row">
-              <Col>
-                <Card
-                  className="dashboard-col2-unique-card"
-                  style={{ width: "18rem" }}
-                >
-                  <Card.Img
-                    variant="top"
-                    style={{ height: "250px" }}
-                    className="custom-dashboard-image-rendered"
-                    src="/images/hacktober.png"
-                  />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img
-                    variant="top"
-                    style={{ height: "250px" }}
-                    className="custom-dashboard-image-rendered"
-                    src="/images/hash.png"
-                  />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-            <br />
-            <Row className="dashboard-col2-unique-row">
-              <Col>
-                <Card
-                  className="dashboard-col2-unique-card"
-                  style={{ width: "18rem" }}
-                >
-                  <Card.Img
-                    variant="top"
-                    style={{ height: "250px" }}
-                    className="custom-dashboard-image-rendered"
-                    src="/images/sim-tech.png"
-                  />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img
-                    variant="top"
-                    style={{ height: "250px" }}
-                    className="custom-dashboard-image-rendered"
-                    src="/images/linkedin.png"
-                  />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
+              {userData.map((data) => (
+                <Col key={data._id}>
+                  <Card
+                    className="dashboard-col2-unique-card"
+                    style={{ width: "18rem" }}
+                  >
+                    <Card.Img
+                      variant="top"
+                      style={{ height: "250px" }}
+                      className="custom-dashboard-image-rendered"
+                      src={data.imageURL || "/images/hacktober.png"}
+                    />
+                    <Card.Body>
+                      <Card.Title>{truncateTitle(data.title)}</Card.Title>
+                      <Card.Text>
+                        {truncateDescription(data.description)}
+                      </Card.Text>
+                      <Card.Text>
+                        Published on: <b>{formatDate(data.date)}</b>
+                      </Card.Text>
+                      <Button
+                        variant="primary"
+                        onClick={() =>
+                          router.push(`/dashboard/editData/${data._id}`)
+                        }
+                      >
+                        Update
+                      </Button>
+                      &nbsp;&nbsp;&nbsp;
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          const confirmation = window.prompt(
+                            "Are you sure you want to delete the data? Type 'Yes' to confirm."
+                          );
+                          if (confirmation === "Yes") {
+                            handleDelete(data._id);
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
             </Row>
           </Col>
         </Row>
