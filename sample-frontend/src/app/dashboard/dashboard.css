@@ -72,6 +72,10 @@
     padding: 10px;
   }
 
+  .radio-selection-dashboard .form-check-input{
+    border: 2px solid;
+  }
+
   /* Media query for smaller screens */
   @media only screen and (max-width: 768px) {
     .custom-dashboard-col1 {

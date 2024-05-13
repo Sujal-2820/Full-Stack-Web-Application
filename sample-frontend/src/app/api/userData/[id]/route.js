@@ -45,7 +45,9 @@ export async function PUT(request,  { params }) {
     }
 
     const { id } = params;
+    console.log("Id of data: ", id, "Now passing the data to backend...");
     const body = await request.json();
+    console.log("Data passed to backend: ",body)
 
     // Find userData document by id and update it with the new data
     const updatedUserData = await UserData.findByIdAndUpdate(id, body, { new: true });

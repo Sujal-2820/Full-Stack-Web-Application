@@ -12,8 +12,8 @@ function HeaderComponent() {
   const router = useRouter();
 
 
-  const handlegotToSignup = () => {
-    router.push('/signup');
+  const handlegotToDashboard = () => {
+    router.push('/dashboard');
   }
 
 
@@ -22,7 +22,7 @@ function HeaderComponent() {
       <Row>
         <Col>
           <div className='home-page-heading'>This is a project to showcase the working of a Full stack Web Application</div>
-          <Button className='header-page-button' variant="outline-dark" size="lg" onClick={handlegotToSignup}>Test this application</Button>
+          <Button className='header-page-button' variant="outline-dark" size="lg" onClick={handlegotToDashboard}>Test this application</Button>
         </Col>
         <Col>
         <Image

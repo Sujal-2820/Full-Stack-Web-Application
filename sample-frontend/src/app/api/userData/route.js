@@ -27,13 +27,17 @@ export async function POST(request) {
     const decodedToken = jwt.verify(tokenValue, process.env.JWT_SECRET);
     const userID = decodedToken.userId;
 
-    const { title, category, description, imageURL } = body;
+    const { title, category, imageUrl, description } = body;
+
+     // Convert imageUrl to a single string
+     const singleImageUrl = imageUrl;
+
 
     const newUserData = new UserData({
       title,
       category,
+      imageUrl: singleImageUrl,
       description,
-      imageURL,
       userID,
     });
 
@@ -69,14 +73,11 @@ export async function GET(request) {
     // Verify the token using only its value
     const decodedToken = jwt.verify(tokenValue, process.env.JWT_SECRET);
     const userID = decodedToken.userId;
-    const username = decodedToken.username;
 
-    console.log(username);
     const filter = { userID: userID };
     const allUserData = await UserData.find(filter);
 
     const responseData = {
-      username: username,
       userData: allUserData
     };
 

@@ -11,13 +11,13 @@ const userDataSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    imageUrl: {
+        type: [String],
+        default: null
+    },
     description: {
         type: String,
         required: true,
-    },
-    imageURL: {
-        type: String,
-        default: null
     },
     date: {
         type: Date,

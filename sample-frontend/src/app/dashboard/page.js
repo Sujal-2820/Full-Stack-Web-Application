@@ -14,11 +14,13 @@ import { useRouter } from "next/navigation";
 import "./dashboard.css";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { imageDb } from "../../../firebase";
+import { getDownloadURL, listAll, ref, deleteObject } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 function DashboardPage() {
   const router = useRouter();
   const [userData, setUserData] = useState([]);
-  const [username, setUsername] = useState("");
   const [sortBy, setSortBy] = useState("");
 
   const handleSortChange = (event) => {
@@ -32,18 +34,43 @@ function DashboardPage() {
   const fetchData = async () => {
     try {
       const response = await axios.get("/api/userData");
-      const { username, userData } = response.data;
-      console.log(response.data);
-      setUsername(username); // Set the username state
-      setUserData(userData); // Set the user data state
+      const { userData } = response.data;
+      console.log(userData);
+
+      const formattedData = await Promise.all(
+        userData.map(async (data) => {
+          const imgs = await listAll(
+            ref(imageDb, `dataImages/${data.imageUrl}`)
+          );
+          console.log("Image reference: ", imgs);
+          const urls = await Promise.all(
+            imgs.items.map((val) => getDownloadURL(val))
+          );
+          console.log(urls);
+
+          const imageUrl = urls.length > 0 ? urls[0] : "";
+          return { ...data, imageUrl };
+        })
+      );
+
+      setUserData(formattedData);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, imageUrl) => {
     try {
-      prompt("Are you sure to want to delete the Data? Type Yes");
+      const confirmation = prompt(
+        "Are you sure to want to delete the Data? Type Yes"
+      );
+      if (confirmation !== "Yes") {
+        return; // If the user doesn't confirm, do nothing
+      }
+
+      // Delete image from Firebase Storage
+      const imageRef = ref(imageDb, imageUrl);
+      await deleteObject(imageRef);
       await axios.delete(`/api/userData/${id}`);
 
       fetchData();
@@ -83,16 +110,12 @@ function DashboardPage() {
         <Row>
           <Col sm={4} className="custom-dashboard-col1">
             <div className="dashboard-content-col1">
-              {username && (
-                <div className="user-info">
-                  <p>Welcome {username}</p>
-                </div>
-              )}
               <h5 className="dashboard-content-heading">Topic Selection</h5>
               <div className="topic-selection-parent">
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="sports"
                     name="topic"
@@ -103,6 +126,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="technology"
                     name="topic"
@@ -113,6 +137,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="science-tech"
                     name="topic"
@@ -123,6 +148,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="business-finance"
                     name="topic"
@@ -133,6 +159,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="education"
                     name="topic"
@@ -143,6 +170,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="lifestyle"
                     name="topic"
@@ -153,6 +181,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="home-garden"
                     name="topic"
@@ -163,6 +192,7 @@ function DashboardPage() {
                 <div className="topic-selection">
                   <Form.Check
                     inline
+                    className="radio-selection-dashboard"
                     type="radio"
                     id="pets-animals"
                     name="topic"
@@ -200,7 +230,7 @@ function DashboardPage() {
                       variant="top"
                       style={{ height: "250px" }}
                       className="custom-dashboard-image-rendered"
-                      src={data.imageURL || "/images/hacktober.png"}
+                      src={data.imageUrl || "/images/hacktober.png"}
                     />
                     <Card.Body>
                       <Card.Title>{truncateTitle(data.title)}</Card.Title>
@@ -221,14 +251,7 @@ function DashboardPage() {
                       &nbsp;&nbsp;&nbsp;
                       <Button
                         variant="danger"
-                        onClick={() => {
-                          const confirmation = window.prompt(
-                            "Are you sure you want to delete the data? Type 'Yes' to confirm."
-                          );
-                          if (confirmation === "Yes") {
-                            handleDelete(data._id);
-                          }
-                        }}
+                        onClick={() => handleDelete(data._id, data.imageUrl)}
                       >
                         Delete
                       </Button>
