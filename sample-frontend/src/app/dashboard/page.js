@@ -16,20 +16,25 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { imageDb } from "../../../firebase";
 import { getDownloadURL, listAll, ref, deleteObject } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
 
 function DashboardPage() {
   const router = useRouter();
   const [userData, setUserData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
 
   const handleSortChange = (event) => {
-    setSortBy(event.target.value);
+    setSortBy(event.target.value); // Update only sortBy state
   };
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value); // Update selectedCategory state
+  };
+  
 
   useEffect(() => {
     fetchData();
-  }, []);
+  },[]);
 
   const fetchData = async () => {
     try {
@@ -54,6 +59,7 @@ function DashboardPage() {
       );
 
       setUserData(formattedData);
+
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -79,6 +85,59 @@ function DashboardPage() {
       // Handle error
     }
   };
+
+
+    const handleFilterData = async () => {
+      try {
+        const response = await axios.get("/api/userData"); // Fetch raw data
+        const { userData } = response.data;
+        console.log(userData);
+    
+        const formattedData = await Promise.all(
+          userData.map(async (data) => {
+            const imgs = await listAll(
+              ref(imageDb, `dataImages/${data.imageUrl}`)
+            );
+            console.log("Image reference: ", imgs);
+            const urls = await Promise.all(
+              imgs.items.map((val) => getDownloadURL(val))
+            );
+            console.log(urls);
+  
+            const imageUrl = urls.length > 0 ? urls[0] : "";
+            return { ...data, imageUrl };
+          })
+        );
+    
+        let filteredData = formattedData; // Initially set to all data
+    
+        // Apply category filtering if selectedCategory exists:
+        if (selectedCategory) {
+          filteredData = filteredData.filter(
+            (data) => data.category === selectedCategory
+          );
+        }
+    
+        // Apply sorting based on sortBy:
+        const sortedData = [...filteredData]; // Create a copy to avoid mutation
+        sortedData.sort((data1, data2) => {
+          const date1 = new Date(data1.date);
+          const date2 = new Date(data2.date);
+          if (sortBy === "newest") {
+            return date2 - date1; // Newest to Oldest
+          } else if (sortBy === "oldest") {
+            return date1 - date2; // Oldest to Newest
+          }
+          return 0; // No sorting if sortBy is empty
+        });
+    
+        setUserData(sortedData); // Update state with filtered and sorted data
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+
 
   const truncateTitle = (title) => {
     const maxChars = 20;
@@ -117,10 +176,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="sports"
+                    id="Sports"
                     name="topic"
-                    value="sports"
+                    value="Sports"
                     label="Sports"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -128,10 +188,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="technology"
+                    id="Technology"
                     name="topic"
-                    value="technology"
+                    value="Technology"
                     label="Technology"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -139,10 +200,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="science-tech"
+                    id="Science & Technology"
                     name="topic"
-                    value="science-tech"
+                    value="Science & Technology"
                     label="Science & Technology"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -150,10 +212,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="business-finance"
+                    id="Business & Finance"
                     name="topic"
-                    value="business-finance"
+                    value="Business & Finance"
                     label="Business & Finance"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -161,10 +224,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="education"
+                    id="Education & Learning"
                     name="topic"
-                    value="education"
+                    value="Education & Learning"
                     label="Education & Learning"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -172,10 +236,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="lifestyle"
+                    id="Lifestyle & Wellness"
                     name="topic"
-                    value="lifestyle"
+                    value="Lifestyle & Wellness"
                     label="Lifestyle & Wellness"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -183,10 +248,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="home-garden"
+                    id="Home & Garden"
                     name="topic"
-                    value="home-garden"
+                    value="Home & Garden"
                     label="Home & Garden"
+                    onChange={handleCategoryChange}
                   />
                 </div>
                 <div className="topic-selection">
@@ -194,10 +260,11 @@ function DashboardPage() {
                     inline
                     className="radio-selection-dashboard"
                     type="radio"
-                    id="pets-animals"
+                    id="Pets & Animals"
                     name="topic"
-                    value="pets-animals"
+                    value="Pets & Animals"
                     label="Pets & Animals"
+                    onChange={handleCategoryChange}
                   />
                 </div>
               </div>
@@ -215,6 +282,7 @@ function DashboardPage() {
                 <option value="oldest">Oldest to Newest</option>
               </select>
             </div>
+            <Button onClick={handleFilterData}>Show Filtered Data</Button>
           </Col>
 
           {/* Cards */}
