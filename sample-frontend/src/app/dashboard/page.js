@@ -1,8 +1,10 @@
 // src/app/dashboard/page.js
 
 "use client";
+import "./dashboard.css";
 
 import React, { useEffect, useState } from "react";
+
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -11,7 +13,6 @@ import DashboardNavbarComponent from "../components/Navbar2/navbar2";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useRouter } from "next/navigation";
-import "./dashboard.css";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { imageDb } from "../../../firebase";
