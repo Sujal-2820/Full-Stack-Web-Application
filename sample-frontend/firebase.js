@@ -3,7 +3,7 @@ import { getStorage } from 'firebase/storage';
 
 
 const firebaseConfig = {
-  apiKey: import.meta.env.NEXTJS_FIREBASE_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "sample-project-1c879.firebaseapp.com",
   projectId: "sample-project-1c879",
   storageBucket: "sample-project-1c879.appspot.com",
