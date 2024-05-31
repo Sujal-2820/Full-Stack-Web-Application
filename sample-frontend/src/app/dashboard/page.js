@@ -45,7 +45,6 @@ function DashboardPage() {
           const imgs = await listAll(
             ref(imageDb, `dataImages/${data.imageUrl}`)
           );
-          console.log("Image reference: ", imgs);
           const urls = await Promise.all(
             imgs.items.map((val) => getDownloadURL(val))
           );
@@ -89,18 +88,15 @@ function DashboardPage() {
       try {
         const response = await axios.get("/api/userData"); // Fetch raw data
         const { userData } = response.data;
-        console.log(userData);
     
         const formattedData = await Promise.all(
           userData.map(async (data) => {
             const imgs = await listAll(
               ref(imageDb, `dataImages/${data.imageUrl}`)
             );
-            console.log("Image reference: ", imgs);
             const urls = await Promise.all(
               imgs.items.map((val) => getDownloadURL(val))
             );
-            console.log(urls);
   
             const imageUrl = urls.length > 0 ? urls[0] : "";
             return { ...data, imageUrl };

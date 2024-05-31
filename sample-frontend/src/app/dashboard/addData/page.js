@@ -54,7 +54,6 @@ const AddDataPage = () => {
       );
       await uploadBytes(imageRef, selectedImage);
       const imageUrl = uniqueFilename;
-      console.log("image URL in Firebase", imageUrl);
 
       const response = await axios.post("/api/userData", {
         title,
@@ -62,7 +61,6 @@ const AddDataPage = () => {
         imageUrl, // Update with actual URL
         description,
       });
-      console.log(response.data);
       router.push("/dashboard"); // Redirect to dashboard after successful submission
       setTitle("");
       setCategory("");

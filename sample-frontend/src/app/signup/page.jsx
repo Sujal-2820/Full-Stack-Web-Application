@@ -28,8 +28,10 @@ const Signup = () => {
         password,
       });
 
-      console.log(response.data); 
-      router.push('/signin');
+      if (response.status === 200){
+        router.push("/dashboard");
+      }
+      
     } catch (error) {
       console.error(error.response.data.message); 
       setErrorMessage(error.response.data.message);
