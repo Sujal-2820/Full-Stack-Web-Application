@@ -39,11 +39,16 @@ export async function POST(request) {
       { expiresIn: "24h" } 
     );
 
+    console.log("token generated: ", token);
+
     // Set cookie with token
     const response = NextResponse.json({
       message: "Authentication successful",
+      token: token,
     });
+    
     response.cookies.set("token", token, { httpOnly: true });
+
 
 
     return response;

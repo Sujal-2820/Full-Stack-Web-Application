@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderComponent from './components/Header/header';
 import AboutComponent from './components/About/About';
 import Footer from './components/Footer/footer';
+import ListCards from './components/ListCards/listCards';
 
 
 const Home = () => {
@@ -17,6 +18,8 @@ const Home = () => {
         <HeaderComponent/>
         <br/>
         <AboutComponent/>
+        <br/><br/>
+        <ListCards/>
         <br/><br/>
         <Footer/>
       </>

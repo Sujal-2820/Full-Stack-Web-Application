@@ -9,6 +9,8 @@ import axios from "axios";
 import "./signin.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "../components/Navbar/navbar";
+import Cookies from 'js-cookie';
+
 
 const Signin = () => {
   const router = useRouter();
@@ -30,8 +32,13 @@ const Signin = () => {
         password,
       });
   
-      console.log(response.data); 
-      router.push("/dashboard");
+      if (response.status === 200) {
+        const { token } = response.data;
+        // Store the token in a cookie
+        Cookies.set('token', token, { expires: 1 }); // expires in 1 day
+        // Redirect to the dashboard upon successful sign-in
+        router.push("/dashboard");
+      }      
     } catch (error) {
       console.error(error.response.data.message);
       setErrorMessage(error.response.data.message);

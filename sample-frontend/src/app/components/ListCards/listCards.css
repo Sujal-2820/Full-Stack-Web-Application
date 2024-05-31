@@ -1,0 +1,40 @@
+.listcards-container {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow for a 3D look */
+  }
+
+  .listcards-heading{
+    padding: 20px 0px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 550;
+  }
+  
+  .listcards-inner-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .listcards-card {
+    margin: 10px;
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for a 3D look */
+  }
+  
+  .listcards-col-inner {
+    margin-left: 50px;
+  }
+
+  
+  @media only screen and (max-width: 768px) {
+    .listcards-col-inner {
+      margin-left: 27px;
+    }
+  }
+  

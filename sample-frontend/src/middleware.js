@@ -11,6 +11,7 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
+
   // If there's no token and the user tries to access /dashboard, redirect to /signin
   if (!token && pathname === '/dashboard') {
     return NextResponse.redirect(new URL('/signin', request.nextUrl));
