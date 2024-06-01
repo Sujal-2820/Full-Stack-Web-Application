@@ -1,40 +1,85 @@
 .listcards-container {
-    display: flex;
-    justify-content: center;
-    border: 1px solid #ccc; /* Add border */
-    border-radius: 8px; /* Add border radius for rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow for a 3D look */
-  }
+  display: flex;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #f9f9f9;
+}
 
-  .listcards-heading{
-    padding: 20px 0px;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 550;
-  }
-  
-  .listcards-inner-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .listcards-card {
-    margin: 10px;
-    border: 1px solid #ccc; /* Add border */
-    border-radius: 8px; /* Add border radius for rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for a 3D look */
-  }
-  
+.listcards-heading {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.listcards-heading span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.listcards-heading span:hover {
+  transform: translateY(-10px);
+}
+
+.listcards-inner-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.listcards-card {
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.listcards-card:hover {
+  transform: scale(1.05);
+}
+
+.listcards-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.listcards-card-description {
+  font-size: 16px;
+  color: #555;
+}
+
+.listcards-card-date {
+  font-size: 14px;
+  color: #777;
+}
+
+.listcards-card-button-details {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.listcards-card-button-details:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.listcards-col-inner {
+  margin-left: 50px;
+}
+
+@media only screen and (max-width: 768px) {
   .listcards-col-inner {
-    margin-left: 50px;
+    margin-left: 27px;
   }
-
-  
-  @media only screen and (max-width: 768px) {
-    .listcards-col-inner {
-      margin-left: 27px;
-    }
-  }
-  
+}

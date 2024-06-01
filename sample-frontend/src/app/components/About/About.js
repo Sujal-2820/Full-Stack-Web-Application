@@ -8,7 +8,7 @@ import "./About.css";
 function AboutComponent() {
 
   const handlegotToResume = () => {
-    window.location.href = 'https://drive.google.com/file/d/1rVA7ryJDl1v8osWLk0ZmAOSNj0NXPjWj/view?usp=drive_link';
+    window.location.href = 'https://drive.google.com/file/d/1DJbMFl9HxW5ys4CT3UfexlXHZBcaaH0I/view?usp=sharing';
   }
 
   return (
@@ -26,7 +26,7 @@ function AboutComponent() {
         <Col className="about-page-col2">
           <div className="about-page-heading">About Me</div>
           <div className="about-page-para">
-            I'm Sujal Soni, a dedicated and passionate Full Stack Web Developer.
+            I'm <b>Sujal Soni</b>, a dedicated and passionate Full Stack Web Developer.
             With proficiency in technologies like Node.js, Express.js, React.js,
             and MongoDB, Firebase and Next JS. I've completed several projects showcasing my
             problem-solving abilities and attention to detail. I'm committed to

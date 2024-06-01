@@ -13,7 +13,7 @@ import { getDownloadURL, listAll, ref } from "firebase/storage";
 import LoadingSpinner from "../LoadingSpinner/loadingSpinner";
 
 function ListCards() {
-const router = useRouter();
+  const router = useRouter();
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +46,7 @@ const router = useRouter();
       setUserData(formattedData);
     } catch (error) {
       console.error("Error fetching user data:", error);
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -82,7 +82,7 @@ const router = useRouter();
   return (
     <Container className="listcards-container">
       <Row className="listcards-row">
-      <span className="listcards-heading">SOME PUBLISHED DATASETS</span>
+        <span className="listcards-heading">Some  Published Datasets</span>
         <Col sm={12} className="listcards-col">
           <Row className="listcards-inner-row">
             {randomCards.map((data) => (
@@ -107,9 +107,7 @@ const router = useRouter();
                     <Button
                       variant="primary"
                       className="listcards-card-button-details"
-                      onClick={() =>
-                        router.push(`/detailsPage/${data._id}`)
-                      }
+                      onClick={() => router.push(`/detailsPage/${data._id}`)}
                     >
                       View Details
                     </Button>
