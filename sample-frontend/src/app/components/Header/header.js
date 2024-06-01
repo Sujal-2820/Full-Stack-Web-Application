@@ -27,7 +27,7 @@ function HeaderComponent() {
         <Col>
         <Image
             className='header-page-image'
-            src="/images/working2.jpg" // Path to your image in the public directory
+            src="/images/businessWork1.png" // Path to your image in the public directory
             alt="Working" // Alt text for accessibility
             width={400} // Specify width of the image
             height={400} // Specify height of the image

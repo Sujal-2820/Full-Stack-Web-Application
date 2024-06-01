@@ -82,4 +82,7 @@
   .listcards-col-inner {
     margin-left: 27px;
   }
+  .listcards-card {
+    margin-left: -2px;
+  }
 }
