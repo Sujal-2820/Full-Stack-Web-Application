@@ -10,6 +10,7 @@ import axios from "axios";
 import { imageDb } from "../../../../firebase";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 import LoadingSpinner from "@/app/components/LoadingSpinner/loadingSpinner";
+import Link from "next/link";
 
 
 
@@ -66,6 +67,9 @@ function DatasetDetailsPage() {
       <p className="date">Published on: <b>{formatDate(dataset.date)}</b></p>
       <h2 className="title">{dataset.title}</h2>
       <p className="description">{dataset.description}</p>
+      <Link href="/">
+        <span className="back-link">◄◄ Back to Home Page</span>
+      </Link>
     </div>
     <Footer/>
     </>
