@@ -51,7 +51,7 @@ function Footer() {
       </div>
 
       <div className="footer-row footer-copyright">
-        <p>Copyright &copy; 2024 FullStackProject | All Rights Reserved</p>
+        <p>Copyright &copy; 2024 FullStackProject | All Rights Reserved <br/>Made by Sujal Soni 🚀</p>
       </div>
     </footer>
   );
