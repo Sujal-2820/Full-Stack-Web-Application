@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { imageDb } from "../../../../firebase";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
+import LoadingSpinner from "@/app/components/LoadingSpinner/loadingSpinner";
 
 
 
@@ -20,6 +21,7 @@ function DatasetDetailsPage() {
     description: "",
     imageURL: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -41,6 +43,8 @@ function DatasetDetailsPage() {
       setDataset({ title, date, description, imageURL });
     } catch (error) {
       console.error("Error fetching dataset:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,8 +54,8 @@ function DatasetDetailsPage() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  if (!dataset) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <LoadingSpinner />;
   }
 
   return (

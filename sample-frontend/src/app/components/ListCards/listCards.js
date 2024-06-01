@@ -10,10 +10,12 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { imageDb } from "../../../../firebase";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
+import LoadingSpinner from "../LoadingSpinner/loadingSpinner";
 
 function ListCards() {
 const router = useRouter();
   const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -44,6 +46,8 @@ const router = useRouter();
       setUserData(formattedData);
     } catch (error) {
       console.error("Error fetching user data:", error);
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -70,6 +74,10 @@ const router = useRouter();
   };
 
   const randomCards = userData.sort(() => Math.random() - 0.5).slice(0, 3);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Container className="listcards-container">
